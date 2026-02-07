@@ -1,79 +1,112 @@
-     <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Entre a Razão e a Ilusão - Jogo Educativo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* RESET E CONFIGURAÇÕES GERAIS */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            font-size: 16px;
+            height: 100%;
+            -webkit-text-size-adjust: 100%;
         }
 
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
             color: #333;
+            line-height: 1.5;
+            overflow-x: hidden;
+            touch-action: manipulation;
         }
 
+        /* CONTAINER PRINCIPAL */
         .container {
-            max-width: 800px;
+            max-width: 100%;
             margin: 0 auto;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #4a6fa5 0%, #3a5a80 100%);
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
             position: relative;
             overflow: hidden;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid #4a6fa5;
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.1;
         }
 
         .header h1 {
-            color: #2c3e50;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
         }
 
         .header h2 {
-            color: #4a6fa5;
-            font-size: 1.2rem;
-            font-weight: normal;
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.9;
             margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
         }
 
         .quote {
-            font-style: italic;
-            color: #666;
-            text-align: center;
-            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
             padding: 15px;
-            background: #f8f9fa;
-            border-left: 4px solid #4a6fa5;
-            border-radius: 5px;
+            margin: 15px 0;
+            font-style: italic;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            border-left: 4px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            z-index: 1;
         }
 
         .author {
-            text-align: center;
-            color: #2c3e50;
-            font-weight: bold;
-            margin-bottom: 30px;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 10px;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Telas do jogo */
+        /* TELAS DO JOGO */
         .screen {
             display: none;
-            animation: fadeIn 0.5s;
+            padding: 20px 15px;
+            animation: fadeIn 0.4s ease-out;
         }
 
         .screen.active {
@@ -85,84 +118,229 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Tela inicial */
-        .start-screen {
+        /* TELA INICIAL */
+        .start-screen h2 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
             text-align: center;
         }
 
         .avatar-options {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 30px 0;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 25px 0;
         }
 
         .avatar {
-            width: 120px;
-            padding: 15px;
-            border: 3px solid transparent;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
             background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
         }
 
-        .avatar:hover {
-            transform: translateY(-5px);
+        .avatar:hover, .avatar:active {
+            transform: translateY(-3px);
             border-color: #4a6fa5;
-            box-shadow: 0 5px 15px rgba(74, 111, 165, 0.2);
+            box-shadow: 0 8px 20px rgba(74, 111, 165, 0.15);
         }
 
         .avatar.selected {
-            border-color: #4a6fa5;
             background: #e8f4fc;
-            transform: translateY(-5px);
+            border-color: #4a6fa5;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(74, 111, 165, 0.2);
         }
 
         .avatar-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            display: block;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar strong {
+            display: block;
+            color: #2c3e50;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .avatar small {
+            color: #6c757d;
+            font-size: 0.85rem;
             display: block;
         }
 
-        /* Tela do quiz */
-        .question {
-            font-size: 1.3rem;
-            margin-bottom: 25px;
-            color: #2c3e50;
-            line-height: 1.5;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
+        /* BOTÕES */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #4a6fa5 0%, #3a5a80 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            margin: 20px 0;
+            box-shadow: 0 6px 15px rgba(74, 111, 165, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
-        .options {
-            display: grid;
+        .btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 3px 8px rgba(74, 111, 165, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(74, 111, 165, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            width: auto;
+            display: inline-block;
+        }
+
+        /* BARRA DE PROGRESSO */
+        .progress-container {
+            margin: 20px 0;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .progress-info {
+            display: flex;
             gap: 15px;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #e9ecef;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4a6fa5, #6fa5d6);
+            width: 0%;
+            transition: width 0.5s ease-out;
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* PERGUNTAS E OPÇÕES */
+        .question-box {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 5px solid #4a6fa5;
+            position: relative;
+        }
+
+        .question-counter {
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            background: #4a6fa5;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            line-height: 1.4;
+            margin-bottom: 0;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 12px;
             margin-bottom: 25px;
         }
 
         .option {
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 16px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
             font-size: 1rem;
             text-align: left;
+            position: relative;
+            overflow: hidden;
         }
 
-        .option:hover {
-            background: #f0f7ff;
+        .option:hover, .option:active {
             border-color: #a0c1e8;
+            background: #f0f7ff;
+            transform: translateY(-2px);
         }
 
         .option.correct {
             background: #d4edda;
             border-color: #28a745;
             color: #155724;
+            animation: pulseCorrect 0.5s;
         }
 
         .option.incorrect {
@@ -171,40 +349,106 @@
             color: #721c24;
         }
 
+        @keyframes pulseCorrect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        .option-letter {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: #e9ecef;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            margin-right: 12px;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .correct .option-letter {
+            background: #28a745;
+            color: white;
+        }
+
+        .incorrect .option-letter {
+            background: #dc3545;
+            color: white;
+        }
+
+        /* FEEDBACK */
         .feedback {
-            padding: 15px;
-            border-radius: 10px;
+            border-radius: 15px;
+            padding: 20px;
             margin: 20px 0;
             display: none;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .feedback.correct {
             background: #d4edda;
-            border-left: 4px solid #28a745;
+            border-left: 5px solid #28a745;
         }
 
         .feedback.incorrect {
             background: #f8d7da;
-            border-left: 4px solid #dc3545;
+            border-left: 5px solid #dc3545;
+        }
+
+        .feedback-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feedback-explanation {
+            margin-bottom: 15px;
+            line-height: 1.5;
         }
 
         .citation {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            padding: 12px;
             font-style: italic;
             color: #4a6fa5;
+            border-left: 3px solid #4a6fa5;
             margin-top: 10px;
-            padding: 10px;
-            background: rgba(74, 111, 165, 0.1);
-            border-radius: 5px;
             font-size: 0.9rem;
+            line-height: 1.4;
         }
 
-        /* Medalhas */
+        .citation i {
+            margin-right: 5px;
+        }
+
+        /* MEDALHAS */
+        .medals-section {
+            text-align: center;
+            padding: 20px 0;
+        }
+
         .medals-container {
-            display: flex;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
-            margin: 30px 0;
-            flex-wrap: wrap;
+            margin: 25px 0;
+        }
+
+        @media (min-width: 480px) {
+            .medals-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
 
         .medal {
@@ -214,356 +458,685 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px;
-            background: linear-gradient(135deg, #ddd, #fff);
-            border: 3px solid #ddd;
-            color: #aaa;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #e9ecef, #f8f9fa);
+            border: 4px solid #dee2e6;
+            margin: 0 auto;
             position: relative;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .medal.earned {
-            animation: shine 1s;
+            animation: medalPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        @keyframes shine {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+        @keyframes medalPop {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
 
         .medal-bronze.earned {
             background: linear-gradient(135deg, #cd7f32, #e6b17e);
             border-color: #cd7f32;
-            color: #fff;
+            box-shadow: 0 8px 20px rgba(205, 127, 50, 0.3);
         }
 
         .medal-silver.earned {
             background: linear-gradient(135deg, #c0c0c0, #e0e0e0);
             border-color: #c0c0c0;
-            color: #fff;
+            box-shadow: 0 8px 20px rgba(192, 192, 192, 0.3);
         }
 
         .medal-gold.earned {
             background: linear-gradient(135deg, #ffd700, #fff8b0);
             border-color: #ffd700;
-            color: #fff;
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
         }
 
         .medal-diamond.earned {
             background: linear-gradient(135deg, #b9f2ff, #e6f9ff);
             border-color: #b9f2ff;
-            color: #0077cc;
+            box-shadow: 0 8px 20px rgba(185, 242, 255, 0.4);
         }
 
-        /* Botões */
-        .btn {
-            padding: 15px 30px;
-            background: #4a6fa5;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: block;
-            margin: 20px auto;
-            min-width: 200px;
-        }
-
-        .btn:hover {
-            background: #3a5a80;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        /* Progresso */
-        .progress-container {
-            margin: 20px 0;
-        }
-
-        .progress-bar {
-            height: 10px;
-            background: #ddd;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4a6fa5, #6fa5d6);
-            width: 0%;
-            transition: width 0.5s;
-        }
-
-        .progress-text {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 5px;
+        .medal-name {
+            margin-top: 10px;
+            font-weight: 600;
             font-size: 0.9rem;
-            color: #666;
+            color: #495057;
         }
 
-        /* Tela final */
+        .medal.earned + .medal-name {
+            color: #2c3e50;
+            font-weight: 700;
+        }
+
+        /* TELA DE RESULTADOS */
         .results {
             text-align: center;
-            padding: 20px;
+            padding: 20px 0;
         }
 
-        .score {
-            font-size: 3rem;
+        .score-display {
+            font-size: 3.5rem;
+            font-weight: 800;
             color: #4a6fa5;
             margin: 20px 0;
-            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .message {
-            font-size: 1.2rem;
-            margin: 20px 0;
-            color: #555;
-            line-height: 1.6;
+        .score-message {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            line-height: 1.4;
         }
 
-        .share {
-            margin-top: 30px;
-            padding: 15px;
+        .medal-descriptions {
+            text-align: left;
             background: #f8f9fa;
-            border-radius: 10px;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 25px 0;
         }
 
-        /* Responsividade */
-        @media (max-width: 600px) {
-            .container {
-                padding: 15px;
+        .medal-description {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .medal-description:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .medal-icon {
+            font-size: 1.8rem;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        /* MINI-JOGO DE CONHECIMENTO */
+        .knowledge-challenge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .challenge-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .challenge-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .challenge-item {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 0.9rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .challenge-item:hover, .challenge-item:active {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .challenge-item.correct-match {
+            background: rgba(40, 167, 69, 0.8);
+            animation: matchSuccess 0.5s;
+        }
+
+        .challenge-item.incorrect-match {
+            background: rgba(220, 53, 69, 0.8);
+            animation: matchError 0.3s;
+        }
+
+        @keyframes matchSuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes matchError {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        /* RODAPÉ */
+        .footer {
+            text-align: center;
+            padding: 20px 15px;
+            color: #6c757d;
+            font-size: 0.85rem;
+            border-top: 1px solid #e9ecef;
+            margin-top: 20px;
+        }
+
+        .footer a {
+            color: #4a6fa5;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* ANIMAÇÕES DE ENGajamento */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f00;
+            opacity: 0;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: gold;
+        }
+
+        .pulse {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* RESPONSIVIDADE AVANÇADA */
+        @media (max-width: 360px) {
+            .avatar-options {
+                grid-template-columns: 1fr;
             }
             
             .header h1 {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
+            }
+            
+            .question-text {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (min-width: 480px) {
+            body {
+                padding: 20px;
+            }
+            
+            .container {
+                max-width: 450px;
             }
             
             .avatar-options {
-                flex-direction: column;
-                align-items: center;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 30px;
             }
             
-            .avatar {
-                width: 90%;
+            .container {
+                max-width: 500px;
             }
+            
+            .header {
+                padding: 25px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .screen {
+                padding: 25px 20px;
+            }
+        }
+
+        /* AJUSTES PARA IOS */
+        @supports (-webkit-touch-callout: none) {
+            .btn, .option, .avatar, .challenge-item {
+                cursor: default;
+            }
+            
+            .btn:active, .option:active, .avatar:active, .challenge-item:active {
+                opacity: 0.7;
+            }
+        }
+
+        /* AJUSTES PARA ANDROID */
+        @supports not (-webkit-touch-callout: none) {
+            .btn:hover, .option:hover, .avatar:hover, .challenge-item:hover {
+                opacity: 0.9;
+            }
+        }
+
+        /* SCROLL PERSONALIZADO */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #4a6fa5;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3a5a80;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Cabeçalho -->
+        <!-- CABEÇALHO -->
         <div class="header">
-            <h1>🎮 Entre a Razão e a Ilusão</h1>
+            <h1><i class="fas fa-brain"></i> Entre a Razão e a Ilusão</h1>
             <h2>Jogo Educativo sobre Esquizofrenia</h2>
+            
             <div class="quote">
                 "A condição humana não é linear e racional como queremos crer, mas se dá na convivência entre aspectos lógico-racionais e a dimensão subjetiva do mundo mental."
                 <br><small>(Página 7 do livro)</small>
             </div>
+            
             <div class="author">
                 Desenvolvido pela Professora Priscila Magalhães<br>
                 Baseado no livro "Entre a Razão e a Ilusão: Desmistificando a Esquizofrenia"
             </div>
         </div>
 
-        <!-- Tela 1: Escolha de Personagem -->
-        <div id="screen1" class="screen start-screen active">
-            <h2>Escolha sua perspectiva</h2>
-            <p>Você vivenciará a jornada através de uma das quatro perspectivas apresentadas no livro:</p>
+        <!-- TELA 1: ESCOLHA DE PERSONAGEM -->
+        <div id="screen1" class="screen active">
+            <h2>Escolha sua perspectiva na jornada</h2>
+            <p>Você vivenciará a esquizofrenia através de uma das quatro perspectivas apresentadas no livro:</p>
             
             <div class="avatar-options">
                 <div class="avatar" data-avatar="gabriel" onclick="selectAvatar('gabriel')">
-                    <span class="avatar-icon">👤</span>
-                    <strong>Gabriel</strong><br>
+                    <div class="avatar-icon">👤</div>
+                    <strong>Gabriel</strong>
                     <small>Pessoa com esquizofrenia</small>
                 </div>
                 
                 <div class="avatar" data-avatar="family" onclick="selectAvatar('family')">
-                    <span class="avatar-icon">👨‍👩‍👧‍👦</span>
-                    <strong>Família</strong><br>
+                    <div class="avatar-icon">👨‍👩‍👧‍👦</div>
+                    <strong>Família</strong>
                     <small>Pais e irmãos</small>
                 </div>
                 
                 <div class="avatar" data-avatar="professional" onclick="selectAvatar('professional')">
-                    <span class="avatar-icon">⚕️</span>
-                    <strong>Profissional</strong><br>
+                    <div class="avatar-icon">⚕️</div>
+                    <strong>Profissional</strong>
                     <small>Psiquiatra/terapeuta</small>
                 </div>
                 
                 <div class="avatar" data-avatar="community" onclick="selectAvatar('community')">
-                    <span class="avatar-icon">🏘️</span>
-                    <strong>Comunidade</strong><br>
+                    <div class="avatar-icon">🏘️</div>
+                    <strong>Comunidade</strong>
                     <small>Vizinhos e amigos</small>
                 </div>
             </div>
             
-            <button class="btn" onclick="startGame()" id="startBtn" disabled>Iniciar Jornada</button>
+            <div class="knowledge-challenge">
+                <div class="challenge-title">
+                    <i class="fas fa-lightbulb"></i> Teste Rápido de Conceitos
+                </div>
+                <p>Antes de começar, associe os termos:</p>
+                
+                <div class="challenge-grid" id="conceptGrid">
+                    <!-- Itens serão inseridos pelo JavaScript -->
+                </div>
+                
+                <div id="matchResult"></div>
+            </div>
+            
+            <button class="btn" onclick="startGame()" id="startBtn" disabled>
+                <i class="fas fa-play-circle"></i> Iniciar Jornada
+            </button>
         </div>
 
-        <!-- Tela 2: Quiz -->
+        <!-- TELA 2: QUIZ PRINCIPAL -->
         <div id="screen2" class="screen">
             <div class="progress-container">
+                <div class="progress-header">
+                    <div class="progress-info">
+                        <span id="currentQuestion">1</span>/<span id="totalQuestions">20</span>
+                        <span id="scoreDisplay">Pontos: 0</span>
+                    </div>
+                    <div id="streakCounter" style="display: none;">
+                        <i class="fas fa-fire" style="color: #ff6b35;"></i> <span id="streak">0</span>
+                    </div>
+                </div>
                 <div class="progress-bar">
                     <div class="progress-fill" id="progressFill"></div>
                 </div>
-                <div class="progress-text">
-                    <span id="currentQuestion">1</span>/<span id="totalQuestions">10</span>
-                    <span id="scoreDisplay">Pontos: 0</span>
-                </div>
             </div>
             
-            <div class="question" id="questionText">Carregando pergunta...</div>
+            <div class="question-box">
+                <div class="question-counter" id="questionNumber">1</div>
+                <div class="question-text" id="questionText">Carregando pergunta...</div>
+            </div>
             
-            <div class="options" id="optionsContainer">
-                <!-- As opções serão inseridas aqui pelo JavaScript -->
+            <div class="options-grid" id="optionsContainer">
+                <!-- Opções serão inseridas pelo JavaScript -->
             </div>
             
             <div class="feedback" id="feedback">
                 <!-- Feedback será inserido aqui -->
             </div>
             
-            <button class="btn" onclick="nextQuestion()" id="nextBtn" style="display:none;">Próxima Pergunta</button>
+            <button class="btn" onclick="nextQuestion()" id="nextBtn" style="display:none;">
+                <i class="fas fa-arrow-right"></i> Próxima Pergunta
+            </button>
+            
+            <div id="miniGameContainer" style="display:none; margin-top: 20px;">
+                <!-- Mini-jogo será inserido aqui -->
+            </div>
         </div>
 
-        <!-- Tela 3: Medalhas -->
+        <!-- TELA 3: RESULTADOS E MEDALHAS -->
         <div id="screen3" class="screen">
             <div class="results">
-                <h2>🎉 Parabéns! Jornada Completa 🎉</h2>
-                <div class="score" id="finalScore">0/10</div>
-                <div class="message" id="finalMessage"></div>
+                <h2><i class="fas fa-trophy"></i> Jornada Concluída!</h2>
                 
-                <h3>Suas Medalhas Conquistadas:</h3>
-                <div class="medals-container">
-                    <div class="medal medal-bronze" id="medal1">
-                        <span>🥉</span>
-                    </div>
-                    <div class="medal medal-silver" id="medal2">
-                        <span>🥈</span>
-                    </div>
-                    <div class="medal medal-gold" id="medal3">
-                        <span>🥇</span>
-                    </div>
-                    <div class="medal medal-diamond" id="medal4">
-                        <span>💎</span>
+                <div class="score-display" id="finalScore">0/200</div>
+                
+                <div class="score-message" id="finalMessage">
+                    Carregando mensagem...
+                </div>
+                
+                <div class="medals-section">
+                    <h3><i class="fas fa-medal"></i> Medalhas Conquistadas</h3>
+                    
+                    <div class="medals-container">
+                        <div>
+                            <div class="medal medal-bronze" id="medal1">
+                                <span>🥉</span>
+                            </div>
+                            <div class="medal-name">Participação</div>
+                        </div>
+                        
+                        <div>
+                            <div class="medal medal-silver" id="medal2">
+                                <span>🥈</span>
+                            </div>
+                            <div class="medal-name">Conhecimento</div>
+                        </div>
+                        
+                        <div>
+                            <div class="medal medal-gold" id="medal3">
+                                <span>🥇</span>
+                            </div>
+                            <div class="medal-name">Compreensão</div>
+                        </div>
+                        
+                        <div>
+                            <div class="medal medal-diamond" id="medal4">
+                                <span>💎</span>
+                            </div>
+                            <div class="medal-name">Maestria</div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="message">
-                    <div id="medalDescriptions"></div>
+                <div class="medal-descriptions" id="medalDescriptions">
+                    <!-- Descrições das medalhas serão inseridas aqui -->
                 </div>
                 
-                <div class="share">
-                    <h3>📚 Reflexão Final</h3>
-                    <p>"A esquizofrenia não define o que você é, entenda apenas como uma doença que você precisa cuidar; você é muito mais do que a doença que você tem."</p>
-                    <p><small>(Página 77 do livro)</small></p>
+                <div class="knowledge-challenge">
+                    <div class="challenge-title">
+                        <i class="fas fa-star"></i> Desafio Bônus
+                    </div>
+                    <p>Complete para desbloquear conteúdo extra:</p>
+                    <div id="bonusChallenge">
+                        <!-- Desafio bônus será inserido aqui -->
+                    </div>
                 </div>
                 
-                <button class="btn" onclick="restartGame()">Jogar Novamente</button>
+                <button class="btn" onclick="restartGame()">
+                    <i class="fas fa-redo"></i> Jogar Novamente
+                </button>
+                
+                <button class="btn btn-small" onclick="showCertificate()" style="background: linear-gradient(135deg, #28a745, #20c997); margin: 10px auto;">
+                    <i class="fas fa-award"></i> Gerar Certificado
+                </button>
             </div>
+        </div>
+
+        <!-- RODAPÉ -->
+        <div class="footer">
+            <p>Este jogo educativo foi desenvolvido com base no livro "Entre a Razão e a Ilusão: Desmistificando a Esquizofrenia"</p>
+            <p>© 2023 Professora Priscila Magalhães | Todos os direitos educacionais reservados</p>
         </div>
     </div>
 
+    <!-- ÁREA PARA ANIMAÇÕES -->
+    <div id="celebrationArea"></div>
+
     <script>
-        // Dados do jogo
+        // ============================================
+        // DADOS E CONFIGURAÇÕES DO JOGO
+        // ============================================
+        
         let selectedAvatar = null;
         let currentQuestionIndex = 0;
         let score = 0;
         let questions = [];
+        let streak = 0;
+        let maxStreak = 0;
         let gameCompleted = false;
-
-        // Perguntas baseadas no livro
+        let correctMatches = 0;
+        
+        // Banco de perguntas expandido (20 perguntas)
         const gameQuestions = [
+            // PERGUNTAS SOBRE SINTOMAS
             {
-                question: "De acordo com o livro, qual é uma das principais características da esquizofrenia durante uma crise aguda?",
+                question: "De acordo com o livro, qual é uma característica central da esquizofrenia durante uma crise aguda?",
                 options: [
-                    "A pessoa consegue diferenciar claramente realidade e ilusão",
+                    "A pessoa perde completamente a memória",
                     "A pessoa acredita nos pensamentos e percepções que tem, sentindo que estão acontecendo",
-                    "A pessoa perde completamente a capacidade de comunicação",
-                    "A pessoa se torna agressiva automaticamente"
+                    "A pessoa se torna automaticamente violenta",
+                    "A pessoa fica extremamente eufórica"
                 ],
                 correct: 1,
                 citation: "Página 13: 'A pessoa que adoece, ao passar por uma crise aguda, acredita nos pensamentos e nas percepções que tem. Mais do que acreditar, sente que eles estão acontecendo.'",
-                explanation: "Durante uma crise psicótica, a pessoa vivencia suas percepções como reais, não conseguindo diferenciá-las da realidade compartilhada."
+                explanation: "Durante uma crise psicótica, a realidade interna da pessoa se torna mais vívida e convincente do que a realidade externa compartilhada.",
+                category: "Sintomas",
+                difficulty: 1
             },
             {
-                question: "Qual neurotransmissor está associado aos sintomas positivos da esquizofrenia, como alucinações e delírios?",
+                question: "Qual destes é considerado um sintoma POSITIVO da esquizofrenia?",
+                options: [
+                    "Falta de vontade (abulia)",
+                    "Isolamento social",
+                    "Alucinações auditivas",
+                    "Embotamento afetivo"
+                ],
+                correct: 2,
+                citation: "Página 35-36: 'Gabriel começa a ouvir vozes... Os médicos descrevem esse tipo de experiência como alucinações auditivas.'",
+                explanation: "Sintomas positivos são aqueles que representam uma adição ou exacerbação de experiências normais, como alucinações e delírios.",
+                category: "Sintomas",
+                difficulty: 1
+            },
+            {
+                question: "O que caracteriza o 'embotamento afetivo' na esquizofrenia?",
+                options: [
+                    "Expressão exagerada de emoções",
+                    "Dificuldade em expressar e perceber emoções",
+                    "Mudanças rápidas de humor",
+                    "Ausência total de emoções"
+                ],
+                correct: 1,
+                citation: "Página 46: 'Ele tem dificuldade em expressar o que sente e também em perceber como as pessoas expressam seus sentimentos. Os médicos descrevem esse tipo de experiência como embotamento afetivo.'",
+                explanation: "O embotamento afetivo refere-se à redução na expressão emocional, não à ausência total de emoções internas.",
+                category: "Sintomas",
+                difficulty: 2
+            },
+            
+            // PERGUNTAS SOBRE NEUROBIOLOGIA
+            {
+                question: "Qual neurotransmissor está mais associado aos sintomas positivos da esquizofrenia?",
                 options: [
                     "Serotonina",
                     "Dopamina",
                     "GABA",
-                    "Glutamato"
+                    "Acetilcolina"
                 ],
                 correct: 1,
                 citation: "Página 91: 'Sabe-se que os medicamentos para a esquizofrenia atuam diminuindo a função da dopamina.'",
-                explanation: "O aumento da função da dopamina está associado aos sintomas positivos da esquizofrenia. Todos os antipsicóticos atuam regulando sua função."
+                explanation: "O aumento da atividade dopaminérgica, especialmente na via mesolímbica, está associado a alucinações e delírios.",
+                category: "Neurobiologia",
+                difficulty: 2
             },
             {
-                question: "Segundo o livro, quantas visões distintas existem no contexto das pessoas com esquizofrenia?",
+                question: "O que significa 'neuroplasticidade' no contexto da recuperação?",
                 options: [
-                    "Duas: do paciente e do médico",
-                    "Três: do paciente, da família e do médico",
-                    "Quatro: do paciente, familiares, profissionais e comunidade",
-                    "Cinco: incluindo também a visão espiritual"
-                ],
-                correct: 2,
-                citation: "Página 13: 'Entendemos que há quatro visões distintas: a da pessoa que tem esquizofrenia, a de seus familiares, a dos profissionais e a da comunidade.'",
-                explanation: "Essas quatro perspectivas são igualmente importantes e válidas, cada uma com seu ponto de vista correto."
-            },
-            {
-                question: "Qual é o erro comum que pessoas com esquizofrenia cometem, levando a recaídas?",
-                options: [
-                    "Fazer muito exercício físico",
-                    "Parar a medicação quando se sentem melhor",
-                    "Conversar muito sobre seus sintomas",
-                    "Isolar-se completamente"
+                    "Rigidez das estruturas cerebrais",
+                    "Capacidade do cérebro de se modificar com experiências",
+                    "Perda progressiva de neurônios",
+                    "Formação de novas alucinações"
                 ],
                 correct: 1,
-                citation: "Página 105: 'Um erro muito comum das pessoas que têm doenças crônicas é achar que estão curadas quando os sintomas desaparecem e interromper o tratamento.'",
-                explanation: "A esquizofrenia é uma doença crônica que requer tratamento contínuo, mesmo quando os sintomas desaparecem."
+                citation: "Página 99: 'Essa é a ideia por trás do conceito de neuroplasticidade, que oferece uma perspectiva importante no tratamento.'",
+                explanation: "A neuroplasticidade permite que o cérebro se reorganize e forme novas conexões, fundamental para a reabilitação.",
+                category: "Neurobiologia",
+                difficulty: 2
             },
             {
-                question: "O que significa 'insight' no contexto da esquizofrenia?",
+                question: "Qual região cerebral é frequentemente associada a alterações na esquizofrenia?",
                 options: [
-                    "Capacidade de ter premonições",
+                    "Cerebelo",
+                    "Córtex pré-frontal",
+                    "Bulbo olfatório",
+                    "Ponte"
+                ],
+                correct: 1,
+                citation: "Página 92: 'As pessoas com esquizofrenia têm reduções do volume de algumas regiões, como o córtex pré-frontal.'",
+                explanation: "O córtex pré-frontal está envolvido em funções executivas, planejamento e controle de impulsos, frequentemente afetadas na esquizofrenia.",
+                category: "Neurobiologia",
+                difficulty: 3
+            },
+            
+            // PERGUNTAS SOBRE TRATAMENTO
+            {
+                question: "Qual é um erro comum que leva a recaídas na esquizofrenia?",
+                options: [
+                    "Fazer terapia ocupacional regularmente",
+                    "Parar a medicação quando os sintomas melhoram",
+                    "Participar de grupos de apoio",
+                    "Manter uma rotina estruturada"
+                ],
+                correct: 1,
+                citation: "Página 105: 'Um erro muito comum das pessoas que têm doenças crônicas é achar que estão curadas quando os sintomas desaparecem.'",
+                explanation: "A esquizofrenia requer tratamento contínuo, mesmo durante períodos de estabilidade, para prevenir recaídas.",
+                category: "Tratamento",
+                difficulty: 1
+            },
+            {
+                question: "O que é 'insight' no contexto da esquizofrenia?",
+                options: [
+                    "Capacidade de prever o futuro",
                     "Inteligência acima da média",
                     "Consciência sobre a própria doença",
                     "Habilidade artística especial"
                 ],
                 correct: 2,
                 citation: "Página 117: 'Uma das grandes dificuldades é não terem consciência de que o que elas estão vivenciando é afetado pela doença. Tal dificuldade é também chamada de falta de insight.'",
-                explanation: "Insight é a capacidade de reconhecer que se tem uma doença e que os sintomas são parte dela."
+                explanation: "O insight refere-se à capacidade de reconhecer que se tem uma doença mental e que os sintomas são parte dela.",
+                category: "Tratamento",
+                difficulty: 2
             },
             {
-                question: "Qual é a função principal da terapia ocupacional no tratamento da esquizofrenia?",
+                question: "Qual é a função principal da terapia ocupacional no tratamento?",
                 options: [
                     "Substituir a medicação",
                     "Organizar o cotidiano e exercitar projetos",
-                    "Curar a doença completamente",
-                    "Diagnosticar a esquizofrenia"
+                    "Diagnosticar a esquizofrenia",
+                    "Curar a doença completamente"
                 ],
                 correct: 1,
-                citation: "Página 70: 'O objetivo principal do tratamento era ajudar Gabriel a organizar seu cotidiano e exercitar projetos com começo, meio e fim.'",
-                explanation: "A terapia ocupacional ajuda a pessoa a reorganizar sua vida cotidiana, estabelecer rotinas e desenvolver projetos."
+                citation: "Página 70-71: 'O objetivo principal do tratamento era ajudar Gabriel a organizar seu cotidiano e exercitar projetos com começo, meio e fim.'",
+                explanation: "A terapia ocupacional ajuda a pessoa a reconstruir habilidades para atividades diárias e desenvolver projetos significativos.",
+                category: "Tratamento",
+                difficulty: 2
             },
+            
+            // PERGUNTAS SOBRE ESTIGMA
             {
-                question: "O que são sintomas negativos da esquizofrenia?",
+                question: "Quantas perspectivas distintas o livro identifica no contexto da esquizofrenia?",
                 options: [
-                    "Comportamentos agressivos",
-                    "Falta de vontade, isolamento e embotamento afetivo",
-                    "Alucinações e delírios",
-                    "Pensamentos acelerados"
+                    "Duas: do paciente e do médico",
+                    "Três: do paciente, família e médico",
+                    "Quatro: do paciente, familiares, profissionais e comunidade",
+                    "Cinco: incluindo a perspectiva espiritual"
                 ],
-                correct: 1,
-                citation: "Página 46: 'Ele tem dificuldade em expressar o que sente e também em perceber como as pessoas expressam seus sentimentos. Os médicos descrevem esse tipo de experiência como embotamento afetivo.'",
-                explanation: "Sintomas negativos referem-se à diminuição ou perda de funções normais, como expressão emocional, vontade e iniciativa."
+                correct: 2,
+                citation: "Página 13: 'Entendemos que há quatro visões distintas: a da pessoa que tem esquizofrenia, a de seus familiares, a dos profissionais e a da comunidade onde se vive.'",
+                explanation: "Cada uma dessas quatro perspectivas é válida e importante para uma compreensão completa da experiência.",
+                category: "Estigma",
+                difficulty: 1
             },
             {
-                question: "Qual a prevalência estimada da esquizofrenia na população brasileira?",
+                question: "O que é 'estigma' em relação aos transtornos mentais?",
+                options: [
+                    "Um tipo de tratamento",
+                    "Uma marca negativa colocada na pessoa",
+                    "Um sintoma da esquizofrenia",
+                    "Uma técnica terapêutica"
+                ],
+                correct: 1,
+                citation: "Página 138: 'Estigma é uma palavra que significa uma marca negativa colocada na pessoa.'",
+                explanation: "O estigma leva ao preconceito, discriminação e exclusão social das pessoas com transtornos mentais.",
+                category: "Estigma",
+                difficulty: 1
+            },
+            
+            // PERGUNTAS SOBRE EPIDEMIOLOGIA
+            {
+                question: "Qual é a prevalência estimada da esquizofrenia na população geral?",
                 options: [
                     "Aproximadamente 0,1%",
                     "Aproximadamente 0,5%",
@@ -572,20 +1145,26 @@
                 ],
                 correct: 1,
                 citation: "Página 85: 'Estudos mostram que entre 0,4 e 0,7% da população em geral desenvolve esquizofrenia ao longo da vida.'",
-                explanation: "A esquizofrenia afeta aproximadamente 1 em cada 200 pessoas, sendo uma condição relativamente comum."
+                explanation: "Isso significa que aproximadamente 1 em cada 200 pessoas desenvolverá esquizofrenia ao longo da vida.",
+                category: "Epidemiologia",
+                difficulty: 2
             },
             {
-                question: "O que é neuroplasticidade no contexto da recuperação da esquizofrenia?",
+                question: "A esquizofrenia afeta mais:",
                 options: [
-                    "Rigidez do pensamento",
-                    "Capacidade do cérebro de se modificar com experiências",
-                    "Perda de neurônios",
-                    "Efeito colateral da medicação"
+                    "Homens do que mulheres",
+                    "Mulheres do que homens",
+                    "Homens e mulheres igualmente",
+                    "Apenas adolescentes"
                 ],
-                correct: 1,
-                citation: "Página 99: 'Essa é a ideia por trás do conceito de neuroplasticidade, que oferece uma perspectiva importante no tratamento de portadores de esquizofrenia.'",
-                explanation: "A neuroplasticidade é a capacidade do cérebro de se reorganizar e formar novas conexões, fundamental para a recuperação."
+                correct: 0,
+                citation: "Página 85: 'Existe uma relação de 1,4 de homens para cada mulher afetada, isto é, ela afeta 40% mais homens do que mulheres.'",
+                explanation: "A esquizofrenia geralmente tem início mais precoce e curso mais grave em homens do que em mulheres.",
+                category: "Epidemiologia",
+                difficulty: 2
             },
+            
+            // PERGUNTAS SOBRE RECUPERAÇÃO
             {
                 question: "Qual é a mensagem central do livro sobre a convivência com a esquizofrenia?",
                 options: [
@@ -596,15 +1175,232 @@
                 ],
                 correct: 2,
                 citation: "Página 23: 'Esperamos que você encontre informações úteis e uma visão da esquizofrenia como uma experiência que pode ser compreendida e para a qual há caminhos para superação.'",
-                explanation: "O livro transmite uma mensagem de esperança realista, mostrando que é possível compreender e conviver com a esquizofrenia."
+                explanation: "O livro transmite uma mensagem de esperança realista, enfatizando que a recuperação é possível.",
+                category: "Recuperação",
+                difficulty: 1
+            },
+            {
+                question: "O que significa 'sobrecarga' no contexto da esquizofrenia?",
+                options: [
+                    "Excesso de medicação",
+                    "Impacto da doença na pessoa, família e sociedade",
+                    "Sobrecarga de trabalho dos médicos",
+                    "Excesso de sintomas positivos"
+                ],
+                correct: 1,
+                citation: "Página 86: 'A esquizofrenia causa um impacto (sobrecarga) para a pessoa, para a família e para a sociedade.'",
+                explanation: "A sobrecarga inclui sofrimento pessoal, impacto familiar, custos sociais e anos de vida perdidos.",
+                category: "Recuperação",
+                difficulty: 2
+            },
+            
+            // PERGUNTAS ADICIONAIS
+            {
+                question: "Qual período é chamado de 'pródromos' na esquizofrenia?",
+                options: [
+                    "Período após a recuperação",
+                    "Fase que antecede o aparecimento dos sintomas plenos",
+                    "Período de internação hospitalar",
+                    "Fase de tratamento medicamentoso"
+                ],
+                correct: 1,
+                citation: "Página 27: 'Antes do surgimento dos sintomas da esquizofrenia, há um período que chamamos de pródromos.'",
+                explanation: "Os pródromos são caracterizados por mudanças sutis no comportamento e funcionamento antes do primeiro episódio psicótico.",
+                category: "Sintomas",
+                difficulty: 3
+            },
+            {
+                question: "O que é esquizofrenia refratária?",
+                options: [
+                    "Esquizofrenia de início precoce",
+                    "Quando a pessoa não responde bem aos medicamentos convencionais",
+                    "Esquizofrenia com sintomas apenas negativos",
+                    "Forma leve da doença"
+                ],
+                correct: 1,
+                citation: "Página 119: 'Uma parcela dos portadores não responde bem a eles, no sentido de não apresentarem melhora adequada dos sintomas. Nesses casos, diz-se que a pessoa tem esquizofrenia refratária.'",
+                explanation: "A esquizofrenia refratária requer medicamentos específicos como a clozapina e abordagens terapêuticas intensivas.",
+                category: "Tratamento",
+                difficulty: 3
+            },
+            {
+                question: "Qual medicação é indicada para esquizofrenia refratária?",
+                options: [
+                    "Haloperidol",
+                    "Risperidona",
+                    "Clozapina",
+                    "Olanzapina"
+                ],
+                correct: 2,
+                citation: "Página 120: 'Nos casos como o de Carlos, em que se caracteriza a esquizofrenia refratária, o tratamento recomendado é o uso de um medicamento chamado clozapina.'",
+                explanation: "A clozapina é o único antipsicótico com eficácia comprovada na esquizofrenia refratária, mas requer monitoramento sanguíneo.",
+                category: "Tratamento",
+                difficulty: 3
+            },
+            {
+                question: "Qual é a importância da prevenção de recaídas?",
+                options: [
+                    "Evita apenas custos financeiros",
+                    "Protege o cérebro de danos progressivos",
+                    "Apenas melhora a qualidade de vida momentânea",
+                    "Não tem importância significativa"
+                ],
+                correct: 1,
+                citation: "Página 98: 'As recaídas, além de provocar a perda da maior parte das conquistas... também provocam perda de tecido cerebral.'",
+                explanation: "Cada recaída pode causar danos cerebrais adicionais e perda de funcionamento, tornando a recuperação mais difícil.",
+                category: "Tratamento",
+                difficulty: 2
+            },
+            {
+                question: "O que o livro sugere sobre a relação entre religião e tratamento?",
+                options: [
+                    "A religião deve substituir o tratamento médico",
+                    "São perspectivas complementares, não excludentes",
+                    "A religião piora os sintomas",
+                    "Apenas o tratamento científico é válido"
+                ],
+                correct: 1,
+                citation: "Página 61: 'O ideal na vida das pessoas é que as duas visões sejam complementares.'",
+                explanation: "O livro reconhece o valor da religião como suporte espiritual, mas enfatiza a necessidade do tratamento médico adequado.",
+                category: "Tratamento",
+                difficulty: 2
             }
         ];
 
+        // Dados para o mini-jogo de associação
+        const conceptPairs = [
+            { term: "Alucinação", definition: "Percepção sem estímulo externo" },
+            { term: "Delírio", definition: "Crença fixa incorrigível" },
+            { term: "Avolição", definition: "Falta de vontade ou motivação" },
+            { term: "Dopamina", definition: "Neurotransmissor dos sintomas positivos" },
+            { term: "Insight", definition: "Consciência sobre a doença" },
+            { term: "Estigma", definition: "Marca social negativa" }
+        ];
+
+        // ============================================
+        // FUNÇÕES PRINCIPAIS
+        // ============================================
+
         // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
-            questions = [...gameQuestions];
+            // Misturar perguntas
+            questions = [...gameQuestions].sort(() => Math.random() - 0.5);
+            
+            // Configurar contador de perguntas
             document.getElementById('totalQuestions').textContent = questions.length;
+            
+            // Configurar mini-jogo de conceitos
+            setupConceptGame();
+            
+            // Configurar desafio bônus
+            setupBonusChallenge();
         });
+
+        // Configurar mini-jogo de conceitos
+        function setupConceptGame() {
+            const grid = document.getElementById('conceptGrid');
+            grid.innerHTML = '';
+            
+            // Embaralhar conceitos
+            const shuffledConcepts = [...conceptPairs].sort(() => Math.random() - 0.5);
+            
+            // Adicionar termos
+            shuffledConcepts.forEach((pair, index) => {
+                const termElement = document.createElement('div');
+                termElement.className = 'challenge-item';
+                termElement.textContent = pair.term;
+                termElement.dataset.type = 'term';
+                termElement.dataset.value = pair.term;
+                termElement.onclick = () => selectConcept(termElement);
+                grid.appendChild(termElement);
+            });
+            
+            // Adicionar definições
+            shuffledConcepts.forEach((pair, index) => {
+                const defElement = document.createElement('div');
+                defElement.className = 'challenge-item';
+                defElement.textContent = pair.definition;
+                defElement.dataset.type = 'definition';
+                defElement.dataset.value = pair.term;
+                defElement.onclick = () => selectConcept(defElement);
+                grid.appendChild(defElement);
+            });
+        }
+
+        // Selecionar conceito no mini-jogo
+        let selectedConcept = null;
+        
+        function selectConcept(element) {
+            if (element.classList.contains('correct-match')) return;
+            
+            if (!selectedConcept) {
+                // Primeira seleção
+                selectedConcept = element;
+                element.style.background = 'rgba(74, 111, 165, 0.5)';
+            } else {
+                // Segunda seleção - verificar se combina
+                const firstType = selectedConcept.dataset.type;
+                const secondType = element.dataset.type;
+                const firstValue = selectedConcept.dataset.value;
+                const secondValue = element.dataset.value;
+                
+                if (firstType !== secondType && firstValue === secondValue) {
+                    // Combinação correta
+                    selectedConcept.classList.add('correct-match');
+                    element.classList.add('correct-match');
+                    
+                    // Animar
+                    selectedConcept.style.animation = 'matchSuccess 0.5s';
+                    element.style.animation = 'matchSuccess 0.5s';
+                    
+                    // Atualizar contador
+                    correctMatches++;
+                    const resultDiv = document.getElementById('matchResult');
+                    resultDiv.innerHTML = `<p style="color: white; font-weight: bold;">✅ Correto! ${correctMatches}/${conceptPairs.length} combinações</p>`;
+                    
+                    // Verificar se completou
+                    if (correctMatches === conceptPairs.length) {
+                        setTimeout(() => {
+                            resultDiv.innerHTML += `<p style="color: #ffd700; font-weight: bold;">🎉 Todos os conceitos corretos! Bônus: +10 pontos</p>`;
+                        }, 500);
+                    }
+                } else {
+                    // Combinação incorreta
+                    element.classList.add('incorrect-match');
+                    setTimeout(() => {
+                        element.classList.remove('incorrect-match');
+                    }, 500);
+                }
+                
+                // Resetar seleção
+                selectedConcept.style.background = '';
+                selectedConcept = null;
+            }
+        }
+
+        // Configurar desafio bônus
+        function setupBonusChallenge() {
+            const bonusDiv = document.getElementById('bonusChallenge');
+            bonusDiv.innerHTML = `
+                <p>Complete a frase:</p>
+                <p>"A esquizofrenia não define o que você é, entenda apenas como uma <input type='text' id='bonusAnswer' placeholder='...' style='border: 2px solid #4a6fa5; border-radius: 5px; padding: 5px; width: 150px;'> que você precisa cuidar."</p>
+                <button class='btn-small' onclick='checkBonusAnswer()' style='margin-top: 10px;'><i class='fas fa-check'></i> Verificar</button>
+                <p id='bonusResult' style='margin-top: 10px;'></p>
+            `;
+        }
+
+        // Verificar resposta bônus
+        function checkBonusAnswer() {
+            const answer = document.getElementById('bonusAnswer').value.toLowerCase();
+            const resultDiv = document.getElementById('bonusResult');
+            
+            if (answer.includes('doença') || answer.includes('doenca')) {
+                resultDiv.innerHTML = "<span style='color: #28a745; font-weight: bold;'>✅ Correto! Citação da página 77 do livro.</span>";
+                createConfetti(20);
+            } else {
+                resultDiv.innerHTML = "<span style='color: #dc3545;'>❌ Tente novamente. Dica: É algo que você tem e precisa cuidar.</span>";
+            }
+        }
 
         // Selecionar avatar
         function selectAvatar(avatar) {
@@ -626,6 +1422,11 @@
         function startGame() {
             if (!selectedAvatar) return;
             
+            // Adicionar pontos bônus por completar o mini-jogo
+            if (correctMatches === conceptPairs.length) {
+                score += 10;
+            }
+            
             // Atualizar tela
             document.getElementById('screen1').classList.remove('active');
             document.getElementById('screen2').classList.add('active');
@@ -634,7 +1435,7 @@
             showQuestion();
         }
 
-        // Mostrar pergunta atual
+        // Mostrar pergunta
         function showQuestion() {
             if (currentQuestionIndex >= questions.length) {
                 endGame();
@@ -646,7 +1447,16 @@
             // Atualizar elementos
             document.getElementById('questionText').textContent = question.question;
             document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('questionNumber').textContent = currentQuestionIndex + 1;
             document.getElementById('scoreDisplay').textContent = `Pontos: ${score}`;
+            
+            // Atualizar streak se existir
+            if (streak > 1) {
+                document.getElementById('streakCounter').style.display = 'block';
+                document.getElementById('streak').textContent = streak;
+            } else {
+                document.getElementById('streakCounter').style.display = 'none';
+            }
             
             // Calcular progresso
             const progress = ((currentQuestionIndex) / questions.length) * 100;
@@ -657,10 +1467,14 @@
             optionsContainer.innerHTML = '';
             
             // Adicionar novas opções
+            const letters = ['A', 'B', 'C', 'D'];
             question.options.forEach((option, index) => {
                 const optionElement = document.createElement('div');
                 optionElement.className = 'option';
-                optionElement.textContent = option;
+                optionElement.innerHTML = `
+                    <span class="option-letter">${letters[index]}</span>
+                    ${option}
+                `;
                 optionElement.onclick = () => checkAnswer(index);
                 optionsContainer.appendChild(optionElement);
             });
@@ -668,6 +1482,65 @@
             // Esconder feedback e botão próximo
             document.getElementById('feedback').style.display = 'none';
             document.getElementById('nextBtn').style.display = 'none';
+            
+            // Mostrar mini-jogo a cada 5 perguntas
+            if (currentQuestionIndex > 0 && currentQuestionIndex % 5 === 0) {
+                showMiniGame();
+            } else {
+                document.getElementById('miniGameContainer').style.display = 'none';
+            }
+        }
+
+        // Mostrar mini-jogo
+        function showMiniGame() {
+            const container = document.getElementById('miniGameContainer');
+            const miniGames = [
+                {
+                    title: "Rápido! Associe o sintoma ao tipo",
+                    content: `
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 10px 0;">
+                            <p><strong>Alucinação auditiva:</strong> <button class="btn-small" onclick="checkMiniGame('positivo')" style="margin: 0 5px;">Positivo</button> <button class="btn-small" onclick="checkMiniGame('negativo')">Negativo</button></p>
+                        </div>
+                    `
+                },
+                {
+                    title: "Qual neurotransmissor?",
+                    content: `
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 10px 0;">
+                            <p><strong>Principal alvo dos antipsicóticos:</strong> 
+                            <button class="btn-small" onclick="checkMiniGame('dopamina')" style="margin: 0 5px;">Dopamina</button>
+                            <button class="btn-small" onclick="checkMiniGame('serotonina')" style="margin: 0 5px;">Serotonina</button>
+                            <button class="btn-small" onclick="checkMiniGame('gaba')">GABA</button></p>
+                        </div>
+                    `
+                }
+            ];
+            
+            const randomGame = miniGames[Math.floor(Math.random() * miniGames.length)];
+            
+            container.innerHTML = `
+                <div style="background: #e8f4fc; padding: 15px; border-radius: 12px; border-left: 5px solid #4a6fa5;">
+                    <h4 style="margin: 0 0 10px 0; color: #2c3e50;"><i class="fas fa-gamepad"></i> ${randomGame.title}</h4>
+                    ${randomGame.content}
+                    <p id="miniGameResult" style="margin: 10px 0 0 0; font-weight: bold;"></p>
+                </div>
+            `;
+            
+            container.style.display = 'block';
+        }
+
+        // Verificar mini-jogo
+        function checkMiniGame(answer) {
+            const resultDiv = document.getElementById('miniGameResult');
+            
+            if ((answer === 'positivo') || (answer === 'dopamina')) {
+                resultDiv.innerHTML = "<span style='color: #28a745;'>✅ Correto! +5 pontos</span>";
+                score += 5;
+                document.getElementById('scoreDisplay').textContent = `Pontos: ${score}`;
+                createConfetti(10);
+            } else {
+                resultDiv.innerHTML = "<span style='color: #dc3545;'>❌ Incorreto. Continue tentando!</span>";
+            }
         }
 
         // Verificar resposta
@@ -688,18 +1561,59 @@
                 options[selectedIndex].classList.add('incorrect');
                 feedback.className = 'feedback incorrect';
                 feedback.innerHTML = `
-                    <strong>❌ Resposta incorreta</strong>
-                    <p>${question.explanation}</p>
-                    <div class="citation">📖 ${question.citation}</div>
+                    <div class="feedback-title">
+                        <i class="fas fa-times-circle"></i> Resposta incorreta
+                    </div>
+                    <div class="feedback-explanation">${question.explanation}</div>
+                    <div class="citation">
+                        <i class="fas fa-book-open"></i> ${question.citation}
+                    </div>
+                    <div style="margin-top: 10px; font-size: 0.9rem; color: #6c757d;">
+                        <i class="fas fa-tag"></i> Categoria: ${question.category} | 
+                        <i class="fas fa-chart-line"></i> Dificuldade: ${'★'.repeat(question.difficulty)}
+                    </div>
                 `;
+                
+                // Resetar streak
+                streak = 0;
             } else {
                 feedback.className = 'feedback correct';
                 feedback.innerHTML = `
-                    <strong>✅ Resposta correta!</strong>
-                    <p>${question.explanation}</p>
-                    <div class="citation">📖 ${question.citation}</div>
+                    <div class="feedback-title">
+                        <i class="fas fa-check-circle"></i> Resposta correta!
+                    </div>
+                    <div class="feedback-explanation">${question.explanation}</div>
+                    <div class="citation">
+                        <i class="fas fa-book-open"></i> ${question.citation}
+                    </div>
+                    <div style="margin-top: 10px; font-size: 0.9rem; color: #6c757d;">
+                        <i class="fas fa-tag"></i> Categoria: ${question.category} | 
+                        <i class="fas fa-chart-line"></i> Dificuldade: ${'★'.repeat(question.difficulty)}
+                    </div>
                 `;
-                score += 10;
+                
+                // Adicionar pontos
+                let points = 10 * question.difficulty;
+                score += points;
+                
+                // Atualizar streak
+                streak++;
+                if (streak > maxStreak) maxStreak = streak;
+                
+                // Bônus por streak
+                if (streak >= 3) {
+                    const bonus = Math.floor(streak / 3) * 5;
+                    score += bonus;
+                    feedback.innerHTML += `<div style="margin-top: 10px; padding: 10px; background: #fff3cd; border-radius: 5px; color: #856404;">
+                        <i class="fas fa-fire"></i> Streak ${streak}! Bônus: +${bonus} pontos
+                    </div>`;
+                }
+                
+                // Confetti para respostas difíceis
+                if (question.difficulty >= 3) {
+                    createConfetti(15);
+                }
+                
                 document.getElementById('scoreDisplay').textContent = `Pontos: ${score}`;
             }
             
@@ -728,24 +1642,42 @@
             document.getElementById('screen3').classList.add('active');
             
             // Calcular porcentagem
-            const percentage = (score / (questions.length * 10)) * 100;
+            const maxScore = questions.length * 10;
+            const percentage = (score / maxScore) * 100;
             
             // Atualizar resultados
-            document.getElementById('finalScore').textContent = `${score}/${questions.length * 10}`;
+            document.getElementById('finalScore').textContent = `${score}/${maxScore}`;
             
             // Determinar mensagem final
             let message = '';
+            let title = '';
+            
             if (percentage >= 90) {
-                message = 'Excelente! Você demonstrou um entendimento profundo sobre a esquizofrenia.';
-            } else if (percentage >= 70) {
-                message = 'Muito bom! Você compreendeu bem os principais conceitos sobre esquizofrenia.';
-            } else if (percentage >= 50) {
-                message = 'Bom trabalho! Você já tem uma boa base de conhecimento sobre o tema.';
+                title = "Especialista em Esquizofrenia!";
+                message = "Você demonstrou um conhecimento excepcional sobre a esquizofrenia, seus sintomas, tratamentos e nuances. Parabéns!";
+            } else if (percentage >= 75) {
+                title = "Excelente Compreensão!";
+                message = "Você tem um entendimento sólido e abrangente sobre a esquizofrenia. Continue explorando o tema!";
+            } else if (percentage >= 60) {
+                title = "Bom Conhecimento!";
+                message = "Você compreende os conceitos principais sobre esquizofrenia. Cada aprendizado é um passo na direção certa.";
+            } else if (percentage >= 40) {
+                title = "Base Sólida!";
+                message = "Você tem uma boa base de conhecimento sobre o tema. Continue estudando para aprofundar sua compreensão.";
             } else {
-                message = 'Continue estudando! Cada aprendizado nos aproxima da compreensão.';
+                title = "Início da Jornada!";
+                message = "Todo aprendizado começa com o primeiro passo. Continue explorando o tema para entender melhor a esquizofrenia.";
             }
             
-            document.getElementById('finalMessage').textContent = message;
+            document.getElementById('finalMessage').innerHTML = `
+                <h3>${title}</h3>
+                <p>${message}</p>
+                <p><strong>Estatísticas:</strong><br>
+                • Streak máximo: ${maxStreak} acertos consecutivos<br>
+                • Pontuação: ${score} pontos<br>
+                • Precisão: ${percentage.toFixed(1)}%<br>
+                • Conceitos dominados: ${correctMatches}/${conceptPairs.length}</p>
+            `;
             
             // Atribuir medalhas
             const medalDescriptions = document.getElementById('medalDescriptions');
@@ -753,27 +1685,95 @@
             
             // Medalha 1: Participação (sempre ganha)
             document.getElementById('medal1').classList.add('earned');
-            medalDescriptions.innerHTML += '<p>🥉 <strong>Medalha da Participação:</strong> Por completar a jornada educativa</p>';
+            medalDescriptions.innerHTML += '<div class="medal-description"><span class="medal-icon">🥉</span> <div><strong>Medalha da Participação</strong><br>Por completar a jornada educativa sobre esquizofrenia</div></div>';
             
-            // Medalha 2: Acima de 50%
-            if (percentage >= 50) {
+            // Medalha 2: Acima de 40%
+            if (percentage >= 40) {
                 document.getElementById('medal2').classList.add('earned');
-                medalDescriptions.innerHTML += '<p>🥈 <strong>Medalha do Conhecimento:</strong> Por demonstrar compreensão básica</p>';
+                medalDescriptions.innerHTML += '<div class="medal-description"><span class="medal-icon">🥈</span> <div><strong>Medalha do Conhecimento</strong><br>Por demonstrar compreensão básica dos conceitos</div></div>';
             }
             
-            // Medalha 3: Acima de 70%
-            if (percentage >= 70) {
+            // Medalha 3: Acima de 60%
+            if (percentage >= 60) {
                 document.getElementById('medal3').classList.add('earned');
-                medalDescriptions.innerHTML += '<p>🥇 <strong>Medalha da Compreensão:</strong> Por dominar os conceitos principais</p>';
+                medalDescriptions.innerHTML += '<div class="medal-description"><span class="medal-icon">🥇</span> <div><strong>Medalha da Compreensão</strong><br>Por dominar os conceitos principais do livro</div></div>';
             }
             
-            // Medalha 4: Acima de 90%
-            if (percentage >= 90) {
+            // Medalha 4: Acima de 75%
+            if (percentage >= 75) {
                 document.getElementById('medal4').classList.add('earned');
-                medalDescriptions.innerHTML += '<p>💎 <strong>Medalha da Maestria:</strong> Por excelente domínio do conteúdo</p>';
+                medalDescriptions.innerHTML += '<div class="medal-description"><span class="medal-icon">💎</span> <div><strong>Medalha da Maestria</strong><br>Por excelente domínio do conteúdo e aplicação prática</div></div>';
+            }
+            
+            // Confetti para bom desempenho
+            if (percentage >= 75) {
+                setTimeout(() => {
+                    createConfetti(30);
+                    showCelebration();
+                }, 500);
             }
             
             gameCompleted = true;
+        }
+
+        // Criar confetti
+        function createConfetti(count) {
+            const colors = ['#4a6fa5', '#28a745', '#dc3545', '#ffc107', '#17a2b8'];
+            const container = document.getElementById('celebrationArea');
+            
+            for (let i = 0; i < count; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = confetti.style.width;
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                
+                container.appendChild(confetti);
+                
+                // Animação
+                const animation = confetti.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(${window.innerHeight}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 3000 + 2000,
+                    easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)'
+                });
+                
+                animation.onfinish = () => confetti.remove();
+            }
+        }
+
+        // Mostrar celebração
+        function showCelebration() {
+            const container = document.getElementById('celebrationArea');
+            const celebration = document.createElement('div');
+            celebration.className = 'celebration';
+            celebration.innerHTML = '🎉';
+            
+            container.appendChild(celebration);
+            
+            // Animação de entrada
+            celebration.animate([
+                { transform: 'scale(0)', opacity: 0 },
+                { transform: 'scale(1)', opacity: 1 }
+            ], {
+                duration: 500,
+                easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+            });
+            
+            // Animação de saída
+            setTimeout(() => {
+                celebration.animate([
+                    { transform: 'scale(1)', opacity: 1 },
+                    { transform: 'scale(0)', opacity: 0 }
+                ], {
+                    duration: 500,
+                    easing: 'ease-in'
+                }).onfinish = () => celebration.remove();
+            }, 1500);
         }
 
         // Reiniciar jogo
@@ -781,7 +1781,10 @@
             // Resetar variáveis
             currentQuestionIndex = 0;
             score = 0;
+            streak = 0;
+            maxStreak = 0;
             selectedAvatar = null;
+            correctMatches = 0;
             
             // Resetar seleção de avatar
             document.querySelectorAll('.avatar').forEach(av => {
@@ -793,13 +1796,135 @@
                 medal.classList.remove('earned');
             });
             
+            // Resetar mini-jogo
+            setupConceptGame();
+            document.getElementById('matchResult').innerHTML = '';
+            
             // Resetar botão
             document.getElementById('startBtn').disabled = true;
+            
+            // Misturar perguntas novamente
+            questions = [...gameQuestions].sort(() => Math.random() - 0.5);
             
             // Voltar para tela inicial
             document.getElementById('screen3').classList.remove('active');
             document.getElementById('screen1').classList.add('active');
         }
+
+        // Mostrar certificado
+        function showCertificate() {
+            const percentage = (score / (questions.length * 10)) * 100;
+            const certificate = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px;">
+                    <div style="background: white; border-radius: 20px; padding: 30px; max-width: 500px; width: 100%; text-align: center; position: relative;">
+                        <button onclick="this.parentElement.parentElement.remove()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; color: #666; cursor: pointer;">×</button>
+                        
+                        <h2 style="color: #4a6fa5; margin-bottom: 20px;">🎓 Certificado de Conclusão</h2>
+                        
+                        <div style="border: 3px solid gold; border-radius: 15px; padding: 20px; margin: 20px 0;">
+                            <p>Certificamos que</p>
+                            <h3 style="color: #2c3e50; margin: 10px 0;">JOGADOR(A)</h3>
+                            <p>completou com sucesso o jogo educativo</p>
+                            <h4 style="color: #4a6fa5; margin: 10px 0;">"Entre a Razão e a Ilusão"</h4>
+                            <p>com uma pontuação de</p>
+                            <h2 style="color: #28a745; margin: 10px 0;">${score} PONTOS (${percentage.toFixed(1)}%)</h2>
+                            <p>demonstrando compreensão sobre esquizofrenia</p>
+                        </div>
+                        
+                        <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                            <div style="text-align: left;">
+                                <p><strong>Data:</strong> ${new Date().toLocaleDateString('pt-BR')}</p>
+                                <p><strong>Conceitos dominados:</strong> ${correctMatches}/${conceptPairs.length}</p>
+                            </div>
+                            
+                            <div style="text-align: right;">
+                                <p style="margin-top: 30px; border-top: 1px solid #ccc; padding-top: 10px;">
+                                    <strong>Prof. Priscila Magalhães</strong><br>
+                                    Desenvolvedora do Jogo Educativo
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <button onclick="printCertificate()" style="margin-top: 20px; padding: 10px 20px; background: #4a6fa5; color: white; border: none; border-radius: 8px; cursor: pointer;">
+                            <i class="fas fa-print"></i> Imprimir Certificado
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            const certDiv = document.createElement('div');
+            certDiv.innerHTML = certificate;
+            document.body.appendChild(certDiv);
+        }
+
+        // Imprimir certificado
+        function printCertificate() {
+            window.print();
+        }
+
+        // Adicionar suporte para teclado
+        document.addEventListener('keydown', function(event) {
+            // Teclas 1-4 para selecionar avatar
+            if (document.getElementById('screen1').classList.contains('active')) {
+                if (event.key >= '1' && event.key <= '4') {
+                    const avatars = ['gabriel', 'family', 'professional', 'community'];
+                    selectAvatar(avatars[parseInt(event.key) - 1]);
+                }
+                if (event.key === 'Enter' && !document.getElementById('startBtn').disabled) {
+                    startGame();
+                }
+            }
+            
+            // Teclas A-D para responder perguntas
+            if (document.getElementById('screen2').classList.contains('active')) {
+                if (event.key >= 'a' && event.key <= 'd') {
+                    const index = event.key.charCodeAt(0) - 97;
+                    const options = document.querySelectorAll('.option');
+                    if (options[index] && !options[index].classList.contains('correct') && !options[index].classList.contains('incorrect')) {
+                        checkAnswer(index);
+                    }
+                }
+                if (event.key === 'Enter' && document.getElementById('nextBtn').style.display !== 'none') {
+                    nextQuestion();
+                }
+            }
+            
+            // Tecla R para reiniciar
+            if (event.key === 'r' || event.key === 'R') {
+                if (gameCompleted) {
+                    restartGame();
+                }
+            }
+        });
+
+        // Suporte para gestos em dispositivos móveis
+        let touchStartX = 0;
+        let touchStartY = 0;
+        
+        document.addEventListener('touchstart', function(event) {
+            touchStartX = event.touches[0].clientX;
+            touchStartY = event.touches[0].clientY;
+        }, { passive: true });
+        
+        document.addEventListener('touchend', function(event) {
+            if (!touchStartX || !touchStartY) return;
+            
+            const touchEndX = event.changedTouches[0].clientX;
+            const touchEndY = event.changedTouches[0].clientY;
+            
+            const diffX = touchEndX - touchStartX;
+            const diffY = touchEndY - touchStartY;
+            
+            // Deslizar para esquerda para próxima pergunta (apenas se o botão estiver visível)
+            if (Math.abs(diffX) > 50 && Math.abs(diffX) > Math.abs(diffY)) {
+                if (diffX < -50 && document.getElementById('nextBtn').style.display !== 'none') {
+                    nextQuestion();
+                }
+            }
+            
+            touchStartX = 0;
+            touchStartY = 0;
+        }, { passive: true });
     </script>
 </body>
 </html>
