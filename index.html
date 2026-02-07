@@ -1,0 +1,805 @@
+     <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entre a Razão e a Ilusão - Jogo Educativo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #4a6fa5;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header h2 {
+            color: #4a6fa5;
+            font-size: 1.2rem;
+            font-weight: normal;
+            margin-bottom: 15px;
+        }
+
+        .quote {
+            font-style: italic;
+            color: #666;
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #4a6fa5;
+            border-radius: 5px;
+        }
+
+        .author {
+            text-align: center;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        /* Telas do jogo */
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tela inicial */
+        .start-screen {
+            text-align: center;
+        }
+
+        .avatar-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .avatar {
+            width: 120px;
+            padding: 15px;
+            border: 3px solid transparent;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            background: #f8f9fa;
+        }
+
+        .avatar:hover {
+            transform: translateY(-5px);
+            border-color: #4a6fa5;
+            box-shadow: 0 5px 15px rgba(74, 111, 165, 0.2);
+        }
+
+        .avatar.selected {
+            border-color: #4a6fa5;
+            background: #e8f4fc;
+            transform: translateY(-5px);
+        }
+
+        .avatar-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Tela do quiz */
+        .question {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            line-height: 1.5;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            text-align: left;
+        }
+
+        .option:hover {
+            background: #f0f7ff;
+            border-color: #a0c1e8;
+        }
+
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+
+        .citation {
+            font-style: italic;
+            color: #4a6fa5;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(74, 111, 165, 0.1);
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        /* Medalhas */
+        .medals-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .medal {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            background: linear-gradient(135deg, #ddd, #fff);
+            border: 3px solid #ddd;
+            color: #aaa;
+            position: relative;
+        }
+
+        .medal.earned {
+            animation: shine 1s;
+        }
+
+        @keyframes shine {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .medal-bronze.earned {
+            background: linear-gradient(135deg, #cd7f32, #e6b17e);
+            border-color: #cd7f32;
+            color: #fff;
+        }
+
+        .medal-silver.earned {
+            background: linear-gradient(135deg, #c0c0c0, #e0e0e0);
+            border-color: #c0c0c0;
+            color: #fff;
+        }
+
+        .medal-gold.earned {
+            background: linear-gradient(135deg, #ffd700, #fff8b0);
+            border-color: #ffd700;
+            color: #fff;
+        }
+
+        .medal-diamond.earned {
+            background: linear-gradient(135deg, #b9f2ff, #e6f9ff);
+            border-color: #b9f2ff;
+            color: #0077cc;
+        }
+
+        /* Botões */
+        .btn {
+            padding: 15px 30px;
+            background: #4a6fa5;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            margin: 20px auto;
+            min-width: 200px;
+        }
+
+        .btn:hover {
+            background: #3a5a80;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Progresso */
+        .progress-container {
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4a6fa5, #6fa5d6);
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Tela final */
+        .results {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .score {
+            font-size: 3rem;
+            color: #4a6fa5;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .message {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .share {
+            margin-top: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .avatar-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .avatar {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Cabeçalho -->
+        <div class="header">
+            <h1>🎮 Entre a Razão e a Ilusão</h1>
+            <h2>Jogo Educativo sobre Esquizofrenia</h2>
+            <div class="quote">
+                "A condição humana não é linear e racional como queremos crer, mas se dá na convivência entre aspectos lógico-racionais e a dimensão subjetiva do mundo mental."
+                <br><small>(Página 7 do livro)</small>
+            </div>
+            <div class="author">
+                Desenvolvido pela Professora Priscila Magalhães<br>
+                Baseado no livro "Entre a Razão e a Ilusão: Desmistificando a Esquizofrenia"
+            </div>
+        </div>
+
+        <!-- Tela 1: Escolha de Personagem -->
+        <div id="screen1" class="screen start-screen active">
+            <h2>Escolha sua perspectiva</h2>
+            <p>Você vivenciará a jornada através de uma das quatro perspectivas apresentadas no livro:</p>
+            
+            <div class="avatar-options">
+                <div class="avatar" data-avatar="gabriel" onclick="selectAvatar('gabriel')">
+                    <span class="avatar-icon">👤</span>
+                    <strong>Gabriel</strong><br>
+                    <small>Pessoa com esquizofrenia</small>
+                </div>
+                
+                <div class="avatar" data-avatar="family" onclick="selectAvatar('family')">
+                    <span class="avatar-icon">👨‍👩‍👧‍👦</span>
+                    <strong>Família</strong><br>
+                    <small>Pais e irmãos</small>
+                </div>
+                
+                <div class="avatar" data-avatar="professional" onclick="selectAvatar('professional')">
+                    <span class="avatar-icon">⚕️</span>
+                    <strong>Profissional</strong><br>
+                    <small>Psiquiatra/terapeuta</small>
+                </div>
+                
+                <div class="avatar" data-avatar="community" onclick="selectAvatar('community')">
+                    <span class="avatar-icon">🏘️</span>
+                    <strong>Comunidade</strong><br>
+                    <small>Vizinhos e amigos</small>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="startGame()" id="startBtn" disabled>Iniciar Jornada</button>
+        </div>
+
+        <!-- Tela 2: Quiz -->
+        <div id="screen2" class="screen">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="currentQuestion">1</span>/<span id="totalQuestions">10</span>
+                    <span id="scoreDisplay">Pontos: 0</span>
+                </div>
+            </div>
+            
+            <div class="question" id="questionText">Carregando pergunta...</div>
+            
+            <div class="options" id="optionsContainer">
+                <!-- As opções serão inseridas aqui pelo JavaScript -->
+            </div>
+            
+            <div class="feedback" id="feedback">
+                <!-- Feedback será inserido aqui -->
+            </div>
+            
+            <button class="btn" onclick="nextQuestion()" id="nextBtn" style="display:none;">Próxima Pergunta</button>
+        </div>
+
+        <!-- Tela 3: Medalhas -->
+        <div id="screen3" class="screen">
+            <div class="results">
+                <h2>🎉 Parabéns! Jornada Completa 🎉</h2>
+                <div class="score" id="finalScore">0/10</div>
+                <div class="message" id="finalMessage"></div>
+                
+                <h3>Suas Medalhas Conquistadas:</h3>
+                <div class="medals-container">
+                    <div class="medal medal-bronze" id="medal1">
+                        <span>🥉</span>
+                    </div>
+                    <div class="medal medal-silver" id="medal2">
+                        <span>🥈</span>
+                    </div>
+                    <div class="medal medal-gold" id="medal3">
+                        <span>🥇</span>
+                    </div>
+                    <div class="medal medal-diamond" id="medal4">
+                        <span>💎</span>
+                    </div>
+                </div>
+                
+                <div class="message">
+                    <div id="medalDescriptions"></div>
+                </div>
+                
+                <div class="share">
+                    <h3>📚 Reflexão Final</h3>
+                    <p>"A esquizofrenia não define o que você é, entenda apenas como uma doença que você precisa cuidar; você é muito mais do que a doença que você tem."</p>
+                    <p><small>(Página 77 do livro)</small></p>
+                </div>
+                
+                <button class="btn" onclick="restartGame()">Jogar Novamente</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados do jogo
+        let selectedAvatar = null;
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let questions = [];
+        let gameCompleted = false;
+
+        // Perguntas baseadas no livro
+        const gameQuestions = [
+            {
+                question: "De acordo com o livro, qual é uma das principais características da esquizofrenia durante uma crise aguda?",
+                options: [
+                    "A pessoa consegue diferenciar claramente realidade e ilusão",
+                    "A pessoa acredita nos pensamentos e percepções que tem, sentindo que estão acontecendo",
+                    "A pessoa perde completamente a capacidade de comunicação",
+                    "A pessoa se torna agressiva automaticamente"
+                ],
+                correct: 1,
+                citation: "Página 13: 'A pessoa que adoece, ao passar por uma crise aguda, acredita nos pensamentos e nas percepções que tem. Mais do que acreditar, sente que eles estão acontecendo.'",
+                explanation: "Durante uma crise psicótica, a pessoa vivencia suas percepções como reais, não conseguindo diferenciá-las da realidade compartilhada."
+            },
+            {
+                question: "Qual neurotransmissor está associado aos sintomas positivos da esquizofrenia, como alucinações e delírios?",
+                options: [
+                    "Serotonina",
+                    "Dopamina",
+                    "GABA",
+                    "Glutamato"
+                ],
+                correct: 1,
+                citation: "Página 91: 'Sabe-se que os medicamentos para a esquizofrenia atuam diminuindo a função da dopamina.'",
+                explanation: "O aumento da função da dopamina está associado aos sintomas positivos da esquizofrenia. Todos os antipsicóticos atuam regulando sua função."
+            },
+            {
+                question: "Segundo o livro, quantas visões distintas existem no contexto das pessoas com esquizofrenia?",
+                options: [
+                    "Duas: do paciente e do médico",
+                    "Três: do paciente, da família e do médico",
+                    "Quatro: do paciente, familiares, profissionais e comunidade",
+                    "Cinco: incluindo também a visão espiritual"
+                ],
+                correct: 2,
+                citation: "Página 13: 'Entendemos que há quatro visões distintas: a da pessoa que tem esquizofrenia, a de seus familiares, a dos profissionais e a da comunidade.'",
+                explanation: "Essas quatro perspectivas são igualmente importantes e válidas, cada uma com seu ponto de vista correto."
+            },
+            {
+                question: "Qual é o erro comum que pessoas com esquizofrenia cometem, levando a recaídas?",
+                options: [
+                    "Fazer muito exercício físico",
+                    "Parar a medicação quando se sentem melhor",
+                    "Conversar muito sobre seus sintomas",
+                    "Isolar-se completamente"
+                ],
+                correct: 1,
+                citation: "Página 105: 'Um erro muito comum das pessoas que têm doenças crônicas é achar que estão curadas quando os sintomas desaparecem e interromper o tratamento.'",
+                explanation: "A esquizofrenia é uma doença crônica que requer tratamento contínuo, mesmo quando os sintomas desaparecem."
+            },
+            {
+                question: "O que significa 'insight' no contexto da esquizofrenia?",
+                options: [
+                    "Capacidade de ter premonições",
+                    "Inteligência acima da média",
+                    "Consciência sobre a própria doença",
+                    "Habilidade artística especial"
+                ],
+                correct: 2,
+                citation: "Página 117: 'Uma das grandes dificuldades é não terem consciência de que o que elas estão vivenciando é afetado pela doença. Tal dificuldade é também chamada de falta de insight.'",
+                explanation: "Insight é a capacidade de reconhecer que se tem uma doença e que os sintomas são parte dela."
+            },
+            {
+                question: "Qual é a função principal da terapia ocupacional no tratamento da esquizofrenia?",
+                options: [
+                    "Substituir a medicação",
+                    "Organizar o cotidiano e exercitar projetos",
+                    "Curar a doença completamente",
+                    "Diagnosticar a esquizofrenia"
+                ],
+                correct: 1,
+                citation: "Página 70: 'O objetivo principal do tratamento era ajudar Gabriel a organizar seu cotidiano e exercitar projetos com começo, meio e fim.'",
+                explanation: "A terapia ocupacional ajuda a pessoa a reorganizar sua vida cotidiana, estabelecer rotinas e desenvolver projetos."
+            },
+            {
+                question: "O que são sintomas negativos da esquizofrenia?",
+                options: [
+                    "Comportamentos agressivos",
+                    "Falta de vontade, isolamento e embotamento afetivo",
+                    "Alucinações e delírios",
+                    "Pensamentos acelerados"
+                ],
+                correct: 1,
+                citation: "Página 46: 'Ele tem dificuldade em expressar o que sente e também em perceber como as pessoas expressam seus sentimentos. Os médicos descrevem esse tipo de experiência como embotamento afetivo.'",
+                explanation: "Sintomas negativos referem-se à diminuição ou perda de funções normais, como expressão emocional, vontade e iniciativa."
+            },
+            {
+                question: "Qual a prevalência estimada da esquizofrenia na população brasileira?",
+                options: [
+                    "Aproximadamente 0,1%",
+                    "Aproximadamente 0,5%",
+                    "Aproximadamente 2%",
+                    "Aproximadamente 5%"
+                ],
+                correct: 1,
+                citation: "Página 85: 'Estudos mostram que entre 0,4 e 0,7% da população em geral desenvolve esquizofrenia ao longo da vida.'",
+                explanation: "A esquizofrenia afeta aproximadamente 1 em cada 200 pessoas, sendo uma condição relativamente comum."
+            },
+            {
+                question: "O que é neuroplasticidade no contexto da recuperação da esquizofrenia?",
+                options: [
+                    "Rigidez do pensamento",
+                    "Capacidade do cérebro de se modificar com experiências",
+                    "Perda de neurônios",
+                    "Efeito colateral da medicação"
+                ],
+                correct: 1,
+                citation: "Página 99: 'Essa é a ideia por trás do conceito de neuroplasticidade, que oferece uma perspectiva importante no tratamento de portadores de esquizofrenia.'",
+                explanation: "A neuroplasticidade é a capacidade do cérebro de se reorganizar e formar novas conexões, fundamental para a recuperação."
+            },
+            {
+                question: "Qual é a mensagem central do livro sobre a convivência com a esquizofrenia?",
+                options: [
+                    "A pessoa deve ser internada permanentemente",
+                    "Não há esperança de recuperação",
+                    "É possível ter uma vida com qualidade apesar da doença",
+                    "A família deve abandonar a pessoa"
+                ],
+                correct: 2,
+                citation: "Página 23: 'Esperamos que você encontre informações úteis e uma visão da esquizofrenia como uma experiência que pode ser compreendida e para a qual há caminhos para superação.'",
+                explanation: "O livro transmite uma mensagem de esperança realista, mostrando que é possível compreender e conviver com a esquizofrenia."
+            }
+        ];
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            questions = [...gameQuestions];
+            document.getElementById('totalQuestions').textContent = questions.length;
+        });
+
+        // Selecionar avatar
+        function selectAvatar(avatar) {
+            selectedAvatar = avatar;
+            
+            // Remover seleção anterior
+            document.querySelectorAll('.avatar').forEach(av => {
+                av.classList.remove('selected');
+            });
+            
+            // Adicionar seleção atual
+            document.querySelector(`.avatar[data-avatar="${avatar}"]`).classList.add('selected');
+            
+            // Ativar botão de iniciar
+            document.getElementById('startBtn').disabled = false;
+        }
+
+        // Iniciar jogo
+        function startGame() {
+            if (!selectedAvatar) return;
+            
+            // Atualizar tela
+            document.getElementById('screen1').classList.remove('active');
+            document.getElementById('screen2').classList.add('active');
+            
+            // Mostrar primeira pergunta
+            showQuestion();
+        }
+
+        // Mostrar pergunta atual
+        function showQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                endGame();
+                return;
+            }
+            
+            const question = questions[currentQuestionIndex];
+            
+            // Atualizar elementos
+            document.getElementById('questionText').textContent = question.question;
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('scoreDisplay').textContent = `Pontos: ${score}`;
+            
+            // Calcular progresso
+            const progress = ((currentQuestionIndex) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+            
+            // Limpar opções anteriores
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            // Adicionar novas opções
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.onclick = () => checkAnswer(index);
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Esconder feedback e botão próximo
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'none';
+        }
+
+        // Verificar resposta
+        function checkAnswer(selectedIndex) {
+            const question = questions[currentQuestionIndex];
+            const options = document.querySelectorAll('.option');
+            const feedback = document.getElementById('feedback');
+            
+            // Desabilitar todas as opções
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+            
+            // Marcar resposta correta e incorreta
+            options[question.correct].classList.add('correct');
+            
+            if (selectedIndex !== question.correct) {
+                options[selectedIndex].classList.add('incorrect');
+                feedback.className = 'feedback incorrect';
+                feedback.innerHTML = `
+                    <strong>❌ Resposta incorreta</strong>
+                    <p>${question.explanation}</p>
+                    <div class="citation">📖 ${question.citation}</div>
+                `;
+            } else {
+                feedback.className = 'feedback correct';
+                feedback.innerHTML = `
+                    <strong>✅ Resposta correta!</strong>
+                    <p>${question.explanation}</p>
+                    <div class="citation">📖 ${question.citation}</div>
+                `;
+                score += 10;
+                document.getElementById('scoreDisplay').textContent = `Pontos: ${score}`;
+            }
+            
+            // Mostrar feedback
+            feedback.style.display = 'block';
+            
+            // Mostrar botão próximo
+            document.getElementById('nextBtn').style.display = 'block';
+        }
+
+        // Próxima pergunta
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex < questions.length) {
+                showQuestion();
+            } else {
+                endGame();
+            }
+        }
+
+        // Finalizar jogo
+        function endGame() {
+            // Atualizar tela
+            document.getElementById('screen2').classList.remove('active');
+            document.getElementById('screen3').classList.add('active');
+            
+            // Calcular porcentagem
+            const percentage = (score / (questions.length * 10)) * 100;
+            
+            // Atualizar resultados
+            document.getElementById('finalScore').textContent = `${score}/${questions.length * 10}`;
+            
+            // Determinar mensagem final
+            let message = '';
+            if (percentage >= 90) {
+                message = 'Excelente! Você demonstrou um entendimento profundo sobre a esquizofrenia.';
+            } else if (percentage >= 70) {
+                message = 'Muito bom! Você compreendeu bem os principais conceitos sobre esquizofrenia.';
+            } else if (percentage >= 50) {
+                message = 'Bom trabalho! Você já tem uma boa base de conhecimento sobre o tema.';
+            } else {
+                message = 'Continue estudando! Cada aprendizado nos aproxima da compreensão.';
+            }
+            
+            document.getElementById('finalMessage').textContent = message;
+            
+            // Atribuir medalhas
+            const medalDescriptions = document.getElementById('medalDescriptions');
+            medalDescriptions.innerHTML = '';
+            
+            // Medalha 1: Participação (sempre ganha)
+            document.getElementById('medal1').classList.add('earned');
+            medalDescriptions.innerHTML += '<p>🥉 <strong>Medalha da Participação:</strong> Por completar a jornada educativa</p>';
+            
+            // Medalha 2: Acima de 50%
+            if (percentage >= 50) {
+                document.getElementById('medal2').classList.add('earned');
+                medalDescriptions.innerHTML += '<p>🥈 <strong>Medalha do Conhecimento:</strong> Por demonstrar compreensão básica</p>';
+            }
+            
+            // Medalha 3: Acima de 70%
+            if (percentage >= 70) {
+                document.getElementById('medal3').classList.add('earned');
+                medalDescriptions.innerHTML += '<p>🥇 <strong>Medalha da Compreensão:</strong> Por dominar os conceitos principais</p>';
+            }
+            
+            // Medalha 4: Acima de 90%
+            if (percentage >= 90) {
+                document.getElementById('medal4').classList.add('earned');
+                medalDescriptions.innerHTML += '<p>💎 <strong>Medalha da Maestria:</strong> Por excelente domínio do conteúdo</p>';
+            }
+            
+            gameCompleted = true;
+        }
+
+        // Reiniciar jogo
+        function restartGame() {
+            // Resetar variáveis
+            currentQuestionIndex = 0;
+            score = 0;
+            selectedAvatar = null;
+            
+            // Resetar seleção de avatar
+            document.querySelectorAll('.avatar').forEach(av => {
+                av.classList.remove('selected');
+            });
+            
+            // Resetar medalhas
+            document.querySelectorAll('.medal').forEach(medal => {
+                medal.classList.remove('earned');
+            });
+            
+            // Resetar botão
+            document.getElementById('startBtn').disabled = true;
+            
+            // Voltar para tela inicial
+            document.getElementById('screen3').classList.remove('active');
+            document.getElementById('screen1').classList.add('active');
+        }
+    </script>
+</body>
+</html>
